@@ -1,37 +1,33 @@
 import { Formik, Form, Field } from "formik";
-import { useId } from "react";
 import css from "./ContactForm.module.css";
 
-const ContactForm = () => {
-  const nameFieldId = useId();
-  const telFieldId = useId();
-  //   const handleSubmit = (values, actions) => {
-  //     console.log(values);
-  //     actions.resetForm();
-  //   };
+const ContactForm = ({ onAdd }) => {
+  const handleSubmit = (values, actions) => {
+    onAdd({
+      id: Date.now(),
+      name: values.name,
+      number: values.number,
+    });
+    actions.resetForm();
+  };
 
   return (
     <Formik
       initialValues={{
-        username: "",
-        tel: "",
+        name: "",
+        number: "",
       }}
-      onSubmit={() => {}}
+      onSubmit={handleSubmit}
     >
       <Form className={css.form}>
-        <label className={css.label} htmlFor={nameFieldId}>
-          Name
+        <label className={css.label}>
+          <span>Name</span>
+          <Field className={css.field} type="text" name="name" />
         </label>
-        <Field
-          className={css.field}
-          type="text"
-          name="username"
-          id={nameFieldId}
-        />
-        <label className={css.label} htmlFor={telFieldId}>
-          Number
+        <label className={css.label}>
+          <span>Number</span>
+          <Field className={css.field} type="tel" name="number" />
         </label>
-        <Field className={css.field} type="tel" name="number" id={telFieldId} />
         <button className={css.button} type="submit">
           Add contact
         </button>

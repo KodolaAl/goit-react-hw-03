@@ -1,26 +1,35 @@
 import { useState } from "react";
-import { Formik, Form } from "formik";
 import "./App.css";
-import contacts from "./contactList.json";
+import initialContacts from "./contactList.json";
 import ContactForm from "./components/ContactForm/ContactForm";
 import ContactList from "./components/ContactList/ContactList";
 import SearchBox from "./components/SearchBox/SearchBox";
 
 function App() {
+  const [contacts, setContacts] = useState(initialContacts);
   const [inputValue, setInputValue] = useState("");
-  const handleChange = (event) => {
-    setInputValue(event.target.value);
-    return contacts.filter((contact) => {
-      contact.name.includes(inputValue);
+  const addContact = (newContact) => {
+    setContacts((prevContacts) => {
+      return [...prevContacts, newContact];
     });
   };
+
+  const deleteContact = (contactId) => {
+    setContacts((prevContacts) => {
+      return prevContacts.filter((contact) => contact.id !== contactId);
+    });
+  };
+
+  const visibleContacts = contacts.filter((contact) =>
+    contact.name.toLowerCase().includes(inputValue.toLowerCase())
+  );
 
   return (
     <div>
       <h1 className="title">Phonebook</h1>
-      <ContactForm />
-      <SearchBox inputValue={inputValue} handleChange={handleChange} />
-      <ContactList contacts={contacts} />
+      <ContactForm onAdd={addContact} />
+      <SearchBox inputValue={inputValue} handleChange={setInputValue} />
+      <ContactList contacts={visibleContacts} onDelete={deleteContact} />
     </div>
   );
 }

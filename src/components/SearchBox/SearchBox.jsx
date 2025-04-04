@@ -9,7 +9,9 @@ const SearchBox = ({ inputValue, handleChange }) => {
         type="text"
         id="search"
         value={inputValue}
-        onChange={handleChange}
+        onChange={(e) => {
+          handleChange(e.target.value);
+        }}
       />
     </div>
   );

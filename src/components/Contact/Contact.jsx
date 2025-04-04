@@ -2,9 +2,9 @@ import css from "./Contact.module.css";
 import { FaUser } from "react-icons/fa";
 import { FaPhone } from "react-icons/fa6";
 
-const Contact = ({ contact }) => {
+const Contact = ({ contact, onDelete }) => {
   return (
-    <li className={css.box}>
+    <div className={css.box}>
       <div className={css.user}>
         <p className={css.text}>
           <FaUser /> {contact.name}
@@ -13,10 +13,16 @@ const Contact = ({ contact }) => {
           <FaPhone /> {contact.number}
         </p>
       </div>
-      <button className={css.button} type="button">
+      <button
+        className={css.button}
+        type="button"
+        onClick={() => {
+          onDelete(contact.id);
+        }}
+      >
         Delete
       </button>
-    </li>
+    </div>
   );
 };
 
